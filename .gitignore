@@ -1,0 +1,23 @@
+# Dependencies
+/node_modules
+
+# Environment variables
+.env
+.env.local
+
+# Output files (scraped data)
+*-jobs.json
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Apify input (keep examples, ignore actual config)
+apify_input.json

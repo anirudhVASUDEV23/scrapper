@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Scraper - History</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">🔍 Job Scraper</div>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="history.html" class="nav-link active">History</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <header>
+        <h1>Search History</h1>
+        <p>View all your past job searches</p>
+      </header>
+
+      <div class="content">
+        <!-- Loading State -->
+        <div
+          id="loadingState"
+          class="card"
+          style="text-align: center; padding: 40px"
+        >
+          <div class="loading-spinner"></div>
+          <p style="margin-top: 20px; color: #888">Loading search history...</p>
+        </div>
+
+        <!-- History List -->
+        <div id="historyContainer" style="display: none">
+          <div class="card">
+            <div class="jobs-header" style="margin-bottom: 20px">
+              <h2>All Searches (<span id="searchCount">0</span>)</h2>
+              <button class="btn-secondary" id="refreshBtn">🔄 Refresh</button>
+            </div>
+            <div id="historyList"></div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div
+          id="emptyState"
+          class="card"
+          style="display: none; text-align: center; padding: 60px 20px"
+        >
+          <div style="font-size: 64px; margin-bottom: 20px">📭</div>
+          <h2 style="color: #666; margin-bottom: 10px">No Search History</h2>
+          <p style="color: #888; margin-bottom: 30px">
+            You haven't performed any job searches yet.
+          </p>
+          <a
+            href="index.html"
+            class="btn-primary"
+            style="display: inline-block; text-decoration: none"
+          >
+            🚀 Start Your First Search
+          </a>
+        </div>
+
+        <!-- Jobs Display (when a history item is clicked) -->
+        <div class="card" id="jobsCard" style="display: none">
+          <div class="jobs-header">
+            <div>
+              <h2 id="jobsTitle">Jobs</h2>
+              <p id="jobsSubtitle" style="color: #888; margin-top: 5px"></p>
+            </div>
+            <div class="download-buttons">
+              <button class="btn-secondary" id="downloadJsonBtn">
+                📥 JSON
+              </button>
+              <button class="btn-secondary" id="downloadCsvBtn">📊 CSV</button>
+              <button class="btn-secondary" id="backBtn">← Back</button>
+            </div>
+          </div>
+          <div id="jobsList"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="history.js"></script>
+  </body>
+</html>
