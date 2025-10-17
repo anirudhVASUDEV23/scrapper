@@ -3,93 +3,14 @@ const API_URL =
     ? "http://localhost:3000/api"
     : `${window.location.origin}/api`;
 
-// Check scraping state on page load
-document.addEventListener("DOMContentLoaded", () => {
-  // Clear any stale scraping state on page load
-  // Check if scraping timestamp is older than 5 minutes (likely stale)
-  const scrapingTimestamp = localStorage.getItem("scrapingTimestamp");
-  const isScrapingInProgress =
-    localStorage.getItem("isScrapingInProgress") === "true";
-
-  if (isScrapingInProgress && scrapingTimestamp) {
-    const elapsed = Date.now() - parseInt(scrapingTimestamp);
-    const fiveMinutes = 5 * 60 * 1000;
-
-    if (elapsed > fiveMinutes) {
-      // Stale state - clear it
-      localStorage.removeItem("isScrapingInProgress");
-      localStorage.removeItem("scrapingTimestamp");
-    }
-  } else if (isScrapingInProgress) {
-    // No timestamp but flag is set - clear stale flag
-    localStorage.removeItem("isScrapingInProgress");
-  }
-
-  checkScrapingState();
-
-  // Poll to check if scraping completed (every 3 seconds)
-  setInterval(checkScrapingState, 3000);
-});
-
-// Function to check and update scraping state
-function checkScrapingState() {
-  const isScrapingInProgress =
-    localStorage.getItem("isScrapingInProgress") === "true";
-  const submitBtn = document.getElementById("scrapeBtn");
-  const scrapeForm = document.getElementById("scrapeForm");
-
-  if (!submitBtn) return;
-
-  if (isScrapingInProgress) {
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = "⏳ Scraping in Progress...";
-    scrapeForm.style.opacity = "0.6";
-    scrapeForm.style.pointerEvents = "none";
-
-    // Show warning message
-    let warning = document.getElementById("scraping-warning");
-    if (!warning) {
-      warning = document.createElement("div");
-      warning.id = "scraping-warning";
-      warning.className = "alert alert-warning";
-      warning.innerHTML =
-        "⚠️ A scraping request is currently in progress. Please wait for it to complete before starting a new one.";
-      scrapeForm.parentElement.insertBefore(warning, scrapeForm);
-    }
-  } else {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = "🚀 Start Scraping";
-    scrapeForm.style.opacity = "1";
-    scrapeForm.style.pointerEvents = "auto";
-
-    // Remove warning message
-    const warning = document.getElementById("scraping-warning");
-    if (warning) {
-      warning.remove();
-    }
-  }
-}
-
 // Form submission
 document.getElementById("scrapeForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-
-  // Check if already scraping
-  if (localStorage.getItem("isScrapingInProgress") === "true") {
-    alert(
-      "⚠️ A scraping request is already in progress. Please wait for it to complete."
-    );
-    return;
-  }
 
   const submitBtn = document.getElementById("scrapeBtn");
   const resultsCard = document.getElementById("resultsCard");
   const results = document.getElementById("results");
   const jobsCard = document.getElementById("jobsCard");
-
-  // Set scraping state with timestamp
-  localStorage.setItem("isScrapingInProgress", "true");
-  localStorage.setItem("scrapingTimestamp", Date.now().toString());
 
   // Disable submit button
   submitBtn.disabled = true;
